@@ -1,0 +1,18 @@
+POST http://localhost:3000/api/authenticate
+Content-Type: application/json
+Accept: application/json
+
+{
+    "email": "test@example.com",
+    "password": "password"
+}
+
+> {% client.global.set("auth_token", response.body.token); %}
+
+###
+
+
+GET http://localhost:3000/api/user
+Authorization: Bearer {{auth_token}}
+
+###
