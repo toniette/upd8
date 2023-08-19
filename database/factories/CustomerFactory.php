@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Customer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,11 @@ class CustomerFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'first_name' => $this->faker->firstName,
+            'last_name' => $this->faker->lastName,
+            'document' => $this->faker->cpf(false),
+            'birthdate' => $this->faker->date,
+            'gender' => $this->faker->randomElement(Customer::AVAILABLE_GENDERS),
         ];
     }
 }
