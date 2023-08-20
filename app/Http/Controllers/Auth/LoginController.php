@@ -39,29 +39,9 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function login(Request $request)
+    public function authenticated(Request $request, $user)
     {
-        $this->validateLogin($request);
-
-        if (method_exists($this, 'hasTooManyLoginAttempts') &&
-            $this->hasTooManyLoginAttempts($request)) {
-            $this->fireLockoutEvent($request);
-
-            return $this->sendLockoutResponse($request);
-        }
-
-        if ($this->attemptLogin($request)) {
-            if ($request->hasSession()) {
-                $request->session()->put('auth.password_confirmed_at', time());
-                $apiToken = $request->user()->createToken('auth-token')->plainTextToken;
-                $request->session()->put('api.token', $apiToken);
-            }
-
-            return $this->sendLoginResponse($request);
-        }
-
-        $this->incrementLoginAttempts($request);
-
-        return $this->sendFailedLoginResponse($request);
+        $apiToken = $request->user()->createToken('auth-token')->plainTextToken;
+        $request->session()->put('api.token', $apiToken);
     }
 }
