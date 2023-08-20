@@ -41,4 +41,31 @@ class StoreCustomerRequest extends FormRequest
             'address.zip_code' => ['required', 'string'],
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            'first_name' => 'Nome',
+            'last_name' => 'Sobrenome',
+            'document' => 'CPF',
+            'birthdate' => 'Data de Nascimento',
+            'gender' => 'Sexo',
+            'address' => 'Endereço',
+            'address.street' => 'Logradouro',
+            'address.number' => 'Número',
+            'address.complement' => 'Complemento',
+            'address.district' => 'Bairro',
+            'address.city' => 'Cidade',
+            'address.state' => 'Estado',
+            'address.country' => 'País',
+            'address.zip_code' => 'CEP',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'birthdate' => 'Este campo é obrigatório.',
+        ];
+    }
 }

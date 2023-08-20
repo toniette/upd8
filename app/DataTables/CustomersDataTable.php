@@ -30,15 +30,17 @@ class CustomersDataTable extends DataTable
                 return
                     '<a href="'
                     . route('customers.edit', $customer->id)
-                    . '" class="btn btn-sm btn-primary w-100">Editar</a>';
+                    . '" class="btn btn-primary w-100">Editar</a>';
             })
             ->editColumn('delete', function ($customer) {
                 return
-                    '<button type="button" class="btn btn-sm btn-danger delete-button w-100" data-id="'
-                    . $customer->id
-                    .'">'
-                    . 'Excluir'
-                    . '</button>';
+                    '<button type="button"
+                             class="btn btn-danger w-100 delete-button"
+                             data-bs-toggle="modal"
+                             data-id="' . $customer->id . '"
+                             data-bs-target="#delete-modal">
+                            Excluir
+                    </button>';
             })
             ->editColumn('birthdate', function ($customer) {
                 return Date::parse($customer->birthdate)->format('d/m/Y');

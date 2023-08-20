@@ -297,7 +297,6 @@
 
             $customers.on('draw.dt', function () {
                 $(".delete-button").on('click', function () {
-                    console.log('teste');
                     let id = $(this).data('id');
                     let url = "{{ route('api.customers.destroy', ':id') }}";
                     url = url.replace(':id', id);

@@ -181,6 +181,8 @@
 
             $("#customer-form").on('submit', function (e) {
                 e.preventDefault();
+                $(this).removeClass('is-invalid');
+                $(this).parent().find('.invalid-feedback').remove();
                 $.ajax({
                     url: '{{ route('api.customers.update', ['customer' => $customer->id]) }}',
                     method: 'PUT',
