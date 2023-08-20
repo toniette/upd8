@@ -13,6 +13,11 @@ use Yajra\DataTables\Services\DataTable;
 
 class CustomersDataTable extends DataTable
 {
+    const GENDER_MAPPING = [
+        Customer::MAS_GENDER => 'Masculino',
+        Customer::FEM_GENDER => 'Feminino',
+        Customer::OTH_GENDER => 'Outro',
+    ];
     /**
      * Build the DataTable class.
      *
@@ -21,8 +26,25 @@ class CustomersDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            ->editColumn('edit', function ($customer) {
+                return
+                    '<a href="'
+                    . route('customers.edit', $customer->id)
+                    . '" class="btn btn-sm btn-primary">Editar</a>';
+            })
+            ->editColumn('delete', function ($customer) {
+                return
+                    '<button type="button" class="btn btn-sm btn-danger delete-button" data-id="'
+                    . $customer->id
+                    .'">'
+                    . 'Excluir'
+                    . '</button>';
+            })
             ->editColumn('birthdate', function ($customer) {
                 return Date::parse($customer->birthdate)->format('d/m/Y');
+            })
+            ->editColumn('gender', function ($customer) {
+                return self::GENDER_MAPPING[$customer->gender];
             })
             ->editColumn('document', function ($customer) {
                 return BrDoc::cpf($customer->document)->format()->get();
@@ -34,7 +56,59 @@ class CustomersDataTable extends DataTable
      */
     public function query(Customer $model): QueryBuilder
     {
-        return $model->newQuery()->with('address');
+        $request = $this->request();
+        return $model->newQuery()
+            ->with('address')
+            ->when($firstName = $request->input('first_name'), function ($query) use ($firstName) {
+                $query->where('first_name', 'like', "%$firstName%");
+            })
+            ->when($lastName = $request->input('last_name'), function ($query) use ($lastName) {
+                $query->where('last_name', 'like', "%$lastName%");
+            })
+            ->when($document = $request->input('document'), function ($query) use ($document) {
+                $query->where('document', 'like', "%$document%");
+            })
+            ->when($birthdate = $request->input('birthdate'), function ($query) use ($birthdate) {
+                $query->where('birthdate', $birthdate);
+            })
+            ->when($gender = $request->input('gender'), function ($query) use ($gender) {
+                return $query->where('gender', $gender);
+            })
+            ->when($zipCode = $request->input('address.zip_code'), function ($query) use ($zipCode) {
+                $query->whereHas('address', function ($query) use ($zipCode) {
+                    $query->where('zip_code', $zipCode);
+                });
+            })
+            ->when($street = $request->input('address.street'), function ($query) use ($street) {
+                $query->whereHas('address', function ($query) use ($street) {
+                    $query->where('street', 'like', "%$street%");
+                });
+            })
+            ->when($number = $request->input('address.number'), function ($query) use ($number) {
+                $query->whereHas('address', function ($query) use ($number) {
+                    $query->where('number', 'like', "%$number%");
+                });
+            })
+            ->when($complement = $request->input('address.complement'), function ($query) use ($complement) {
+                $query->whereHas('address', function ($query) use ($complement) {
+                    $query->where('complement', 'like', "%$complement%");
+                });
+            })
+            ->when($district = $request->input('address.district'), function ($query) use ($district) {
+                $query->whereHas('address', function ($query) use ($district) {
+                    $query->where('district', 'like', "%$district%");
+                });
+            })
+            ->when($state = $request->input('address.state'), function ($query) use ($state) {
+                $query->whereHas('address', function ($query) use ($state) {
+                    $query->where('state',$state);
+                });
+            })
+            ->when($city = $request->input('address.city'), function ($query) use ($city) {
+                $query->whereHas('address', function ($query) use ($city) {
+                    $query->where('city', $city);
+                });
+            });
     }
 
     /**
@@ -48,28 +122,7 @@ class CustomersDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->orderBy(0)
-                    ->selectStyleSingle()
-                    ->pageLength(50)
-                    ->pagingType('full_numbers')
-                    ->languagePaginate([
-                        'first' => 'Primeira',
-                        'previous' => 'Anterior',
-                        'next' => 'Próxima',
-                        'last' => 'Última',
-                    ])
-                    ->languageLengthMenu(
-                        '<div class="d-inline-flex mb-3" style="height: 2em;">
-                                    <div class="mt-1">Exibir</div>
-                                    <div class="mx-2">_MENU_</div>
-                                    <div class="mt-1">registros por página</div>
-                              </div>'
-                    )
-                    ->languageInfo(
-                        '<div class="d-inline-flex mb-3" style="height: 2em;">
-                                    Exibindo _START_ até _END_ de _TOTAL_ registros
-                              </div>'
-                    )
-                    ->buttons([]);
+                    ->selectStyleSingle();
     }
 
     /**
@@ -84,6 +137,9 @@ class CustomersDataTable extends DataTable
             Column::make('birthdate')->title('Data de Nascimento'),
             Column::make('address.state')->title('Estado')->orderable(false),
             Column::make('address.city')->title('Cidade')->orderable(false),
+            Column::make('gender')->title('Sexo'),
+            Column::make([])->name('edit')->title('Editar')->orderable(false)->searchable(false),
+            Column::make([])->name('delete')->title('Excluir')->orderable(false)->searchable(false),
         ];
     }
 
