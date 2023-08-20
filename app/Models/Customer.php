@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,9 +18,9 @@ class Customer extends Model
     const OTH_GENDER = 'O';
 
     const AVAILABLE_GENDERS = [
-        self::OTH_GENDER,
-        self::FEM_GENDER,
-        self::MAS_GENDER
+        'other' => self::OTH_GENDER,
+        'female' => self::FEM_GENDER,
+        'male' => self::MAS_GENDER
     ];
 
     protected $fillable = [
@@ -33,5 +34,17 @@ class Customer extends Model
     public function address(): HasOne
     {
         return $this->hasOne(Address::class);
+    }
+
+    public function document(): Attribute
+    {
+        return new Attribute(
+            get: function ($value) {
+                return $value;
+            },
+            set: function ($value) {
+                return preg_replace('/\D/', '', $value);
+            }
+        );
     }
 }

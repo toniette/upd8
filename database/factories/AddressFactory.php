@@ -27,7 +27,7 @@ class AddressFactory extends Factory
             'city' => $this->faker->city,
             'state' => $this->faker->stateAbbr,
             'country' => $this->faker->country,
-            'zipcode' => Str::remove('-', $this->faker->postcode),
+            'zip_code' => Str::remove('-', $this->faker->postcode),
         ];
     }
 }

@@ -36,7 +36,7 @@ Authorization: Bearer {{auth_token}}
 {
     "first_name": "John",
     "last_name": "Doe",
-    "document": "52181024073",
+    "document": "175.221.910-41",
     "birthdate": "2001-02-21",
     "gender": "M",
     "address": {
@@ -47,7 +47,7 @@ Authorization: Bearer {{auth_token}}
         "city": "São Paulo",
         "state": "SP",
         "country": "BR",
-        "zipcode": "12345678"
+        "zip_code": "12345-678"
     }
 }
 
@@ -72,7 +72,7 @@ Authorization: Bearer {{auth_token}}
         "city": "São Paulo",
         "state": "SP",
         "country": "BR",
-        "zipcode": "12345678"
+        "zip_code": "12345678"
     }
 }
 

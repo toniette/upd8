@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('city');
             $table->char('state', 2);
             $table->string('country');
-            $table->string('zipcode');
+            $table->string('zip_code');
             $table->timestamps();
             $table->softDeletes();
         });

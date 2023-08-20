@@ -33,12 +33,12 @@ class StoreCustomerRequest extends FormRequest
             'address' => ['required'],
             'address.street' => ['required', 'string'],
             'address.number' => ['required', 'string'],
-            'address.complement' => ['required', 'string'],
+            'address.complement' => ['nullable', 'string'],
             'address.district' => ['required', 'string'],
             'address.city' => ['required', 'string'],
             'address.state' => ['required', 'string'],
-            'address.country' => ['required', 'string'],
-            'address.zipcode' => ['required', 'string'],
+            'address.country' => ['string'],
+            'address.zip_code' => ['required', 'string'],
         ];
     }
 }
