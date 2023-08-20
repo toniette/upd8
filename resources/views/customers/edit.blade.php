@@ -88,7 +88,11 @@
                                     </div>
                                     <div class="col-2">
                                         <label for="number" class="form-label">Número</label>
-                                        <input type="text" name="address.number" class="form-control" id="number">
+                                        <input type="text"
+                                               name="address.number"
+                                               class="form-control"
+                                               value="{{ $customer->address->number }}"
+                                               id="number">
                                     </div>
                                     <div class="col-4">
                                         <label for="complement" class="form-label">Complemento</label>
