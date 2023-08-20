@@ -30,11 +30,11 @@ class CustomersDataTable extends DataTable
                 return
                     '<a href="'
                     . route('customers.edit', $customer->id)
-                    . '" class="btn btn-sm btn-primary">Editar</a>';
+                    . '" class="btn btn-sm btn-primary w-100">Editar</a>';
             })
             ->editColumn('delete', function ($customer) {
                 return
-                    '<button type="button" class="btn btn-sm btn-danger delete-button" data-id="'
+                    '<button type="button" class="btn btn-sm btn-danger delete-button w-100" data-id="'
                     . $customer->id
                     .'">'
                     . 'Excluir'

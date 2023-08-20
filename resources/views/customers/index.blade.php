@@ -178,6 +178,7 @@
                     "data": "address.state",
                     "name": "address.state",
                     "title": "Estado",
+                    "class": "text-center",
                     "orderable": false,
                     "searchable": false
                 }, {
@@ -251,7 +252,9 @@
                     "info":
                         "<div class=\"d-inline-flex mb-3\" style=\"height: 2em;\">\n"
                         + "Exibindo _START_ at\u00e9 _END_ de _TOTAL_ registros\n"
-                        + "<\/div>"
+                        + "<\/div>",
+                    "infoEmpty": "Nenhum registro encontrado",
+                    "emptyTable": "Nenhum registro encontrado",
                 },
                 "buttons": []
             });
@@ -261,7 +264,7 @@
             });
 
             $.ajax({
-                url: 'https://servicodados.ibge.gov.br/api/v1/localidades/estados',
+                url: 'https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome',
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
@@ -289,7 +292,7 @@
                 });
             });
 
-            $customers.on('draw', function () {
+            $customers.on('draw.dt', function () {
                 $(".delete-button").on('click', function () {
                     console.log('teste');
                     let id = $(this).data('id');
@@ -316,6 +319,9 @@
         div.col-sm-12.col-md-7:has(.dataTables_paginate) {
             display: flex;
             justify-content: end;
+        }
+        .dataTables_empty {
+            text-align: center;
         }
     </style>
 @endsection

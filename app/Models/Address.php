@@ -12,12 +12,6 @@ class Address extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
 
-    const DEFAULT_COUNTRY = 'BR';
-
-    protected $attributes = [
-        'country' => self::DEFAULT_COUNTRY,
-    ];
-
     protected $fillable = [
         'street',
         'number',
@@ -28,21 +22,6 @@ class Address extends Model
         'country',
         'zip_code',
     ];
-
-    public function country(): Attribute
-    {
-        return new Attribute(
-            get: function ($value) {
-                return strtoupper($value);
-            },
-            set: function ($value) {
-                if (is_null($value)) {
-                    return self::DEFAULT_COUNTRY;
-                }
-                return strtoupper($value);
-            }
-        );
-    }
 
     public function zipCode(): Attribute
     {

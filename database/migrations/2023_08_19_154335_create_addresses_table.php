@@ -18,12 +18,12 @@ return new class extends Migration
                 ->on('customers')
                 ->cascadeOnDelete();
             $table->string('street');
-            $table->string('number');
+            $table->string('number')->nullable();
             $table->string('complement')->nullable();
             $table->string('district');
             $table->string('city');
             $table->char('state', 2);
-            $table->string('country');
+            $table->string('country')->default('BR');
             $table->string('zip_code');
             $table->timestamps();
             $table->softDeletes();

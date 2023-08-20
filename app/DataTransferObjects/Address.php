@@ -8,7 +8,7 @@ class Address extends Data
 {
     public function __construct(
         public string $street,
-        public string $number,
+        public ?string $number,
         public ?string $complement,
         public string $district,
         public string $city,

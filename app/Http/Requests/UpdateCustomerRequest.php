@@ -32,12 +32,12 @@ class UpdateCustomerRequest extends FormRequest
             'gender' => ['required', Rule::in(Customer::AVAILABLE_GENDERS)],
             'address' => ['required'],
             'address.street' => ['required', 'string'],
-            'address.number' => ['required', 'string'],
+            'address.number' => ['nullable', 'string'],
             'address.complement' => ['nullable', 'string'],
             'address.district' => ['required', 'string'],
             'address.city' => ['required', 'string'],
             'address.state' => ['required', 'string'],
-            'address.country' => ['string'],
+            'address.country' => ['nullable', 'string'],
             'address.zip_code' => ['required', 'string'],
         ];
     }
