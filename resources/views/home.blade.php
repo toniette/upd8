@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    Utilize a barra de navegação superior para acessar o a listagem, cadastro e edição de clientes
                 </div>
             </div>
         </div>

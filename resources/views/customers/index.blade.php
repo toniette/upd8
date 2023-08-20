@@ -14,8 +14,11 @@
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#filters"
-                        aria-expanded="false" aria-controls="filters">
-                    Alterar Filtros
+                        aria-expanded="false"
+                        id="filters-collapse-trigger"
+                        data-collapsed="1"
+                        aria-controls="filters">
+                    Exibir Filtros
                 </button>
             </div>
         </div>
@@ -24,7 +27,7 @@
                 <div class="card">
                     <div class="card-header">{{ __('customer.customers') }}</div>
                     <div class="card-body bg-white">
-                        <div class="row g-3 collapse multi-collapse" id="filters">
+                        <div class="row g-3 collapse multi-collapse mb-5" id="filters">
                             <div class="col-12">
                                 <div class="row g-3">
                                     <div class="col-3">
@@ -107,7 +110,7 @@
                                 </div>
                             </div>
                         </div>
-                        <hr class="mt-5">
+                        <hr class="mt-2">
                         <div class="row">
                             {{ $dataTable->table() }}
                         </div>
@@ -312,6 +315,17 @@
                         });
                     }
                 });
+            });
+
+            $("#filters-collapse-trigger").on('click', function () {
+                let $this = $(this);
+                if ($this.data('collapsed') === '1') {
+                    $this.text('Exibir filtros');
+                    $this.data('collapsed', '0');
+                    return;
+                }
+                $this.text('Ocultar filtros');
+                $this.data('collapsed', '1');
             });
         }
     </script>
